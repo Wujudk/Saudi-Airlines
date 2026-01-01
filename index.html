@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saudi Airlines - Connecting the Kingdom to the World</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+        
+        .hero-bg {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.4)), 
+                              url('https://images.unsplash.com/photo-1750548546278-6d54b82b7d36?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1920');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .promo-card {
+            transition: all 0.3s ease;
+        }
+        
+        .promo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-link:hover {
+            color: #15803d;
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .mobile-menu {
+            display: none;
+        }
+        
+        .mobile-menu.active {
+            display: block;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Navigation Bar -->
+    <nav class="bg-white border-b shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <a href="#home" class="flex items-center gap-3">
+                    <div class="bg-green-700 p-2 rounded-lg">
+                        <i class="fas fa-plane text-white text-xl"></i>
+                    </div>
+                    <div>
+                        <div class="font-bold text-lg">Saudi Airlines</div>
+                        <div class="text-xs text-gray-600 hidden sm:block">Connecting the Kingdom to the World</div>
+                    </div>
+                </a>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="#home" class="nav-link text-sm font-medium">Home</a>
+                    <a href="#flight-search" class="nav-link text-sm font-medium">Flight Search</a>
+                    <a href="#promotions" class="nav-link text-sm font-medium">Promotions</a>
+                    <a href="#about" class="nav-link text-sm font-medium">About Us</a>
+                </div>
+                
+                <!-- Auth Section -->
+                <div class="hidden md:flex items-center gap-4">
+                    <div id="user-info" class="hidden items-center gap-2 px-3 py-1 bg-gray-100 rounded-lg">
+                        <i class="fas fa-user text-green-700 text-sm"></i>
+                        <span id="user-name" class="text-sm font-medium"></span>
+                    </div>
+                    <button id="login-btn" class="bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded-lg text-sm font-medium">
+                        Login
+                    </button>
+                    <button id="logout-btn" class="hidden border border-gray-300 hover:bg-gray-50 px-4 py-2 rounded-lg text-sm font-medium">
+                        Logout
+                    </button>
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="md:hidden">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="mobile-menu md:hidden border-t bg-white">
+            <div class="container mx-auto px-4 py-4 flex flex-col gap-4">
+                <a href="#home" class="text-lg hover:text-green-700">Home</a>
+                <a href="#flight-search" class="text-lg hover:text-green-700">Flight Search</a>
+                <a href="#promotions" class="text-lg hover:text-green-700">Promotions</a>
+                <a href="#about" class="text-lg hover:text-green-700">About Us</a>
+                <div class="pt-4 border-t">
+                    <button id="mobile-login-btn" class="w-full bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded-lg font-medium">
+                        Login
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-bg h-[600px] flex items-center">
+        <div class="container mx-auto px-4">
+            <div class="max-w-2xl text-white space-y-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <i class="fas fa-plane text-5xl"></i>
+                    <h1 class="text-5xl font-bold">Saudi Airlines</h1>
+                </div>
+                
+                <h2 class="text-4xl font-bold">
+                    Connecting the Kingdom to the World
+                </h2>
+                
+                <p class="text-lg opacity-90">
+                    Experience world-class service and comfort on your journey. 
+                    Book your flight today and explore destinations across the globe.
+                </p>
+
+                <div class="flex gap-4 pt-4">
+                    <button class="bg-green-700 hover:bg-green-800 text-white px-6 py-3 rounded-lg text-lg font-medium">
+                        Book Your Flight
+                    </button>
+                    <button class="bg-white/10 border-2 border-white text-white hover:bg-white/20 px-6 py-3 rounded-lg text-lg font-medium">
+                        Learn More
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Flight Search -->
+    <section id="flight-search" class="container mx-auto px-4 -mt-20 relative z-10">
+        <div class="bg-white rounded-lg shadow-2xl p-8">
+            <h3 class="text-2xl font-bold mb-6">Quick Flight Search</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div>
+                    <label class="block text-sm font-medium mb-2">From</label>
+                    <div class="relative">
+                        <i class="fas fa-map-marker-alt absolute left-3 top-3 text-gray-400"></i>
+                        <input type="text" placeholder="Riyadh (RUH)" class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700">
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-2">To</label>
+                    <div class="relative">
+                        <i class="fas fa-map-marker-alt absolute left-3 top-3 text-gray-400"></i>
+                        <input type="text" placeholder="Dubai (DXB)" class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700">
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-2">Date</label>
+                    <div class="relative">
+                        <i class="fas fa-calendar absolute left-3 top-3 text-gray-400"></i>
+                        <input type="date" class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700">
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-2 opacity-0">Search</label>
+                    <button class="w-full bg-green-700 hover:bg-green-800 text-white py-2 rounded-lg font-medium">
+                        <i class="fas fa-search mr-2"></i>
+                        Search
+                    </button>
+                </div>
+            </div>
+
+            <div class="mt-6 flex flex-wrap gap-4 text-sm">
+                <span class="text-gray-600">Popular routes:</span>
+                <button class="text-green-700 hover:underline">Riyadh - Dubai</button>
+                <button class="text-green-700 hover:underline">Jeddah - Cairo</button>
+                <button class="text-green-700 hover:underline">Dammam - London</button>
+                <button class="text-green-700 hover:underline">Riyadh - Paris</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-16 mt-16">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold mb-2">Why Choose Saudi Airlines</h2>
+                <p class="text-gray-600 mt-4">Experience exceptional service and comfort on every journey</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Feature 1 -->
+                <div class="bg-white rounded-lg p-6 shadow-md hover:shadow-lg transition">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="bg-green-100 p-3 rounded-lg">
+                            <i class="fas fa-plane text-green-700 text-2xl"></i>
+                        </div>
+                        <h3 class="text-lg font-bold">Modern Fleet</h3>
+                    </div>
+                    <p class="text-sm text-gray-600">Experience comfort with our latest aircraft equipped with state-of-the-art amenities</p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="bg-white rounded-lg p-6 shadow-md hover:shadow-lg transition">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="bg-green-100 p-3 rounded-lg">
+                            <i class="fas fa-shield-alt text-green-700 text-2xl"></i>
+                        </div>
+                        <h3 class="text-lg font-bold">Safe Travel</h3>
+                    </div>
+                    <p class="text-sm text-gray-600">Your safety is our priority with the highest international standards</p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="bg-white rounded-lg p-6 shadow-md hover:shadow-lg transition">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="bg-green-100 p-3 rounded-lg">
+                            <i class="fas fa-clock text-green-700 text-2xl"></i>
+                        </div>
+                        <h3 class="text-lg font-bold">On-Time Performance</h3>
+                    </div>
+                    <p class="text-sm text-gray-600">Reliable schedules and punctual departures to keep you on track</p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="bg-white rounded-lg p-6 shadow-md hover:shadow-lg transition">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="bg-green-100 p-3 rounded-lg">
+                            <i class="fas fa-award text-green-700 text-2xl"></i>
+                        </div>
+                        <h3 class="text-lg font-bold">Alfursan Rewards</h3>
+                    </div>
+                    <p class="text-sm text-gray-600">Earn miles and enjoy exclusive benefits with our loyalty program</p>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="bg-white rounded-lg p-6 shadow-md hover:shadow-lg transition">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="bg-green-100 p-3 rounded-lg">
+                            <i class="fas fa-globe text-green-700 text-2xl"></i>
+                        </div>
+                        <h3 class="text-lg font-bold">Global Network</h3>
+                    </div>
+                    <p class="text-sm text-gray-600">Connecting you to over 100 destinations worldwide</p>
+                </div>
+
+                <!-- Feature 6 -->
+                <div class="bg-white rounded-lg p-6 shadow-md hover:shadow-lg transition">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="bg-green-100 p-3 rounded-lg">
+                            <i class="fas fa-wifi text-green-700 text-2xl"></i>
+                        </div>
+                        <h3 class="text-lg font-bold">In-Flight WiFi</h3>
+                    </div>
+                    <p class="text-sm text-gray-600">Stay connected at 30,000 feet with high-speed internet</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Promotions Section -->
+    <section id="promotions" class="bg-gray-100 py-16">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold mb-2">Special Offers & Promotions</h2>
+                <p class="text-gray-600 mt-4">Don't miss out on our exclusive deals and discounts</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Promo 1 -->
+                <div class="promo-card bg-white rounded-lg overflow-hidden shadow-lg">
+                    <div class="relative h-48">
+                        <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=800" alt="Dubai" class="w-full h-full object-cover">
+                        <span class="absolute top-4 right-4 bg-red-600 text-white px-3 py-1 rounded-full text-sm font-bold">
+                            <i class="fas fa-percent mr-1"></i>30% OFF
+                        </span>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">Summer Special to Dubai</h3>
+                        <p class="text-sm text-gray-600 mb-4">Experience the luxury of Dubai with our special summer rates</p>
+                        <div class="space-y-2 text-sm mb-4">
+                            <div class="flex items-center gap-2 text-gray-600">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Dubai, UAE</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-gray-600">
+                                <i class="fas fa-calendar"></i>
+                                <span>Valid until August 31, 2025</span>
+                            </div>
+                        </div>
+                        <div class="border-t pt-4">
+                            <div class="mb-3">
+                                <span class="text-xs text-gray-600">Starting from</span>
+                                <span class="text-2xl font-bold ml-2">299 SAR</span>
+                            </div>
+                            <button class="w-full bg-green-700 hover:bg-green-800 text-white py-2 rounded-lg font-medium">
+                                <i class="fas fa-plane mr-2"></i>Book Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Promo 2 -->
+                <div class="promo-card bg-white rounded-lg overflow-hidden shadow-lg">
+                    <div class="relative h-48">
+                        <img src="https://images.unsplash.com/photo-1580418827493-f2b22c0a76cb?q=80&w=800" alt="Mecca" class="w-full h-full object-cover">
+                        <span class="absolute top-4 right-4 bg-red-600 text-white px-3 py-1 rounded-full text-sm font-bold">
+                            <i class="fas fa-percent mr-1"></i>20% OFF
+                        </span>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">Hajj & Umrah Packages</h3>
+                        <p class="text-sm text-gray-600 mb-4">Special packages for pilgrims traveling to Makkah and Madinah</p>
+                        <div class="space-y-2 text-sm mb-4">
+                            <div class="flex items-center gap-2 text-gray-600">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Jeddah / Madinah</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-gray-600">
+                                <i class="fas fa-calendar"></i>
+                                <span>Valid until December 31, 2025</span>
+                            </div>
+                        </div>
+                        <div class="border-t pt-4">
+                            <div class="mb-3">
+                                <span class="text-xs text-gray-600">Starting from</span>
+                                <span class="text-2xl font-bold ml-2">199 SAR</span>
+                            </div>
+                            <button class="w-full bg-green-700 hover:bg-green-800 text-white py-2 rounded-lg font-medium">
+                                <i class="fas fa-plane mr-2"></i>Book Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Promo 3 -->
+                <div class="promo-card bg-white rounded-lg overflow-hidden shadow-lg">
+                    <div class="relative h-48">
+                        <img src="https://images.unsplash.com/photo-1431274172761-fca41d930114?q=80&w=800" alt="Paris" class="w-full h-full object-cover">
+                        <span class="absolute top-4 right-4 bg-red-600 text-white px-3 py-1 rounded-full text-sm font-bold">
+                            <i class="fas fa-percent mr-1"></i>25% OFF
+                        </span>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">Europe Explorer</h3>
+                        <p class="text-sm text-gray-600 mb-4">Discover the beauty of Europe with discounted flights to major cities</p>
+                        <div class="space-y-2 text-sm mb-4">
+                            <div class="flex items-center gap-2 text-gray-600">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>London, Paris, Rome</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-gray-600">
+                                <i class="fas fa-calendar"></i>
+                                <span>Valid until October 15, 2025</span>
+                            </div>
+                        </div>
+                        <div class="border-t pt-4">
+                            <div class="mb-3">
+                                <span class="text-xs text-gray-600">Starting from</span>
+                                <span class="text-2xl font-bold ml-2">399 SAR</span>
+                            </div>
+                            <button class="w-full bg-green-700 hover:bg-green-800 text-white py-2 rounded-lg font-medium">
+                                <i class="fas fa-plane mr-2"></i>Book Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Promo 4 -->
+                <div class="promo-card bg-white rounded-lg overflow-hidden shadow-lg">
+                    <div class="relative h-48">
+                        <img src="https://images.unsplash.com/photo-1706770610714-05709abe103c?q=80&w=800" alt="Business Class" class="w-full h-full object-cover">
+                        <span class="absolute top-4 right-4 bg-red-600 text-white px-3 py-1 rounded-full text-sm font-bold">
+                            <i class="fas fa-percent mr-1"></i>50% OFF
+                        </span>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">Business Class Upgrade</h3>
+                        <p class="text-sm text-gray-600 mb-4">Upgrade to business class for only 50% of the regular price</p>
+                        <div class="space-y-2 text-sm mb-4">
+                            <div class="flex items-center gap-2 text-gray-600">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>All Destinations</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-gray-600">
+                                <i class="fas fa-calendar"></i>
+                                <span>Valid until September 30, 2025</span>
+                            </div>
+                        </div>
+                        <div class="border-t pt-4">
+                            <div class="mb-3">
+                                <span class="text-xs text-gray-600">Starting from</span>
+                                <span class="text-2xl font-bold ml-2">799 SAR</span>
+                            </div>
+                            <button class="w-full bg-green-700 hover:bg-green-800 text-white py-2 rounded-lg font-medium">
+                                <i class="fas fa-plane mr-2"></i>Book Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-16">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold mb-4">About Saudi Airlines</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                    As the national carrier of Saudi Arabia, we take pride in connecting the Kingdom to the world. 
+                    With decades of experience and a commitment to excellence, we provide world-class service to millions of passengers every year.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                <!-- Stat 1 -->
+                <div class="bg-white rounded-lg p-8 text-center shadow-md hover:shadow-lg transition">
+                    <div class="flex justify-center mb-4">
+                        <div class="bg-green-100 p-4 rounded-full">
+                            <i class="fas fa-globe text-green-700 text-4xl"></i>
+                        </div>
+                    </div>
+                    <div class="text-4xl font-bold mb-2">100+</div>
+                    <div class="text-sm text-gray-600">Destinations Worldwide</div>
+                </div>
+
+                <!-- Stat 2 -->
+                <div class="bg-white rounded-lg p-8 text-center shadow-md hover:shadow-lg transition">
+                    <div class="flex justify-center mb-4">
+                        <div class="bg-green-100 p-4 rounded-full">
+                            <i class="fas fa-users text-green-700 text-4xl"></i>
+                        </div>
+                    </div>
+                    <div class="text-4xl font-bold mb-2">30M+</div>
+                    <div class="text-sm text-gray-600">Passengers Annually</div>
+                </div>
+
+                <!-- Stat 3 -->
+                <div class="bg-white rounded-lg p-8 text-center shadow-md hover:shadow-lg transition">
+                    <div class="flex justify-center mb-4">
+                        <div class="bg-green-100 p-4 rounded-full">
+                            <i class="fas fa-award text-green-700 text-4xl"></i>
+                        </div>
+                    </div>
+                    <div class="text-4xl font-bold mb-2">40+</div>
+                    <div class="text-sm text-gray-600">Years of Excellence</div>
+                </div>
+
+                <!-- Stat 4 -->
+                <div class="bg-white rounded-lg p-8 text-center shadow-md hover:shadow-lg transition">
+                    <div class="flex justify-center mb-4">
+                        <div class="bg-green-100 p-4 rounded-full">
+                            <i class="fas fa-chart-line text-green-700 text-4xl"></i>
+                        </div>
+                    </div>
+                    <div class="text-4xl font-bold mb-2">95%</div>
+                    <div class="text-sm text-gray-600">On-Time Performance</div>
+                </div>
+            </div>
+
+            <!-- Mission Section -->
+            <div class="bg-gradient-to-r from-green-700 to-green-600 rounded-2xl p-12 text-white">
+                <div class="max-w-3xl mx-auto text-center">
+                    <h3 class="text-3xl font-bold mb-4">Our Mission</h3>
+                    <p class="text-lg opacity-90 mb-6">
+                        To be the airline of choice for travelers to, from, and within Saudi Arabia, delivering exceptional experiences 
+                        through innovative services, operational excellence, and a commitment to Saudi hospitality.
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+                        <div>
+                            <h4 class="font-semibold mb-2">Safety First</h4>
+                            <p class="text-sm opacity-80">Highest safety standards in every aspect of our operations</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold mb-2">Customer Focus</h4>
+                            <p class="text-sm opacity-80">Dedicated to exceeding passenger expectations</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold mb-2">Innovation</h4>
+                            <p class="text-sm opacity-80">Continuously improving through technology and service</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 mt-auto">
+        <div class="container mx-auto px-4 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Contact Info -->
+                <div>
+                    <h3 class="text-white text-lg font-semibold mb-4">Contact Information</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-start gap-3">
+                            <i class="fas fa-phone text-green-500 mt-1"></i>
+                            <div>
+                                <p class="text-sm text-gray-400">Customer Service</p>
+                                <p class="text-white">+966-920-000-000</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <i class="fas fa-envelope text-green-500 mt-1"></i>
+                            <div>
+                                <p class="text-sm text-gray-400">Email Support</p>
+                                <p class="text-white">support@saudiairlines.com</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <i class="fas fa-clock text-green-500 mt-1"></i>
+                            <div>
+                                <p class="text-sm text-gray-400">Operating Hours</p>
+                                <p class="text-white">24/7 Customer Support</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Social Media -->
+                <div>
+                    <h3 class="text-white text-lg font-semibold mb-4">Follow Us</h3>
+                    <p class="text-sm text-gray-400 mb-4">
+                        Stay connected with us on social media for the latest updates and offers
+                    </p>
+                    <div class="flex gap-4">
+                        <a href="#" class="bg-gray-800 p-3 rounded-lg hover:bg-green-700 transition">
+                            <i class="fab fa-facebook text-xl"></i>
+                        </a>
+                        <a href="#" class="bg-gray-800 p-3 rounded-lg hover:bg-green-700 transition">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="bg-gray-800 p-3 rounded-lg hover:bg-green-700 transition">
+                            <i class="fab fa-instagram text-xl"></i>
+                        </a>
+                        <a href="#" class="bg-gray-800 p-3 rounded-lg hover:bg-green-700 transition">
+                            <i class="fab fa-youtube text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Support Links -->
+                <div>
+                    <h3 class="text-white text-lg font-semibold mb-4">Support</h3>
+                    <div class="space-y-3">
+                        <a href="#" class="block text-sm hover:text-green-500 transition">Terms & Conditions</a>
+                        <a href="#" class="block text-sm hover:text-green-500 transition">Privacy Policy</a>
+                        <a href="#" class="block text-sm hover:text-green-500 transition">Frequently Asked Questions</a>
+                        <a href="#" class="block text-sm hover:text-green-500 transition">Accessibility</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Bar -->
+            <div class="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="flex items-center gap-2">
+                    <div class="bg-green-700 p-2 rounded-lg">
+                        <i class="fas fa-plane text-white"></i>
+                    </div>
+                    <div>
+                        <p class="text-white font-semibold">Saudi Airlines</p>
+                        <p class="text-xs text-gray-400">Connecting the Kingdom to the World</p>
+                    </div>
+                </div>
+                <p class="text-sm text-gray-400">
+                    © 2025 Saudi Airlines. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <!-- LOGO & HEADER -->
+            <div class="flex justify-center mb-6">
+                <div class="flex items-center gap-3">
+                    <div class="bg-green-700 p-3 rounded-lg">
+                        <i class="fas fa-plane text-white text-3xl"></i>
+                    </div>
+                    <div>
+                        <div class="font-bold text-2xl">Saudi Airlines</div>
+                        <div class="text-xs text-gray-600">Connecting the Kingdom to the World</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold">Login</h2>
+                <button id="close-login-modal" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+            </div>
+            
+            <p class="text-gray-600 mb-6 text-center">Access your account to manage bookings</p>
+            
+            <form id="login-form">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium mb-2">Username / Email</label>
+                    <div class="relative">
+                        <i class="fas fa-envelope absolute left-3 top-3 text-gray-400"></i>
+                        <input id="login-email" type="email" placeholder="user@example.com" required 
+                               class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700">
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-sm font-medium mb-2">Password</label>
+                    <div class="relative">
+                        <i class="fas fa-lock absolute left-3 top-3 text-gray-400"></i>
+                        <input id="login-password" type="password" placeholder="Enter your password" required 
+                               class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700">
+                    </div>
+                </div>
+                
+                <button type="submit" class="w-full bg-green-700 hover:bg-green-800 text-white py-3 rounded-lg font-medium mb-4">
+                    Login
+                </button>
+
+                <div class="text-center border-t pt-4 space-y-3">
+                    <button type="button" id="forgot-password-btn" class="text-sm text-green-700 hover:text-green-800 hover:underline font-medium">
+                        Forgot Password?
+                    </button>
+                    <div>
+                        <a href="#home"
+                           onclick="document.getElementById('login-modal').classList.remove('active'); return true;"
+                           class="text-sm text-gray-500 hover:text-gray-700 hover:underline inline-flex items-center gap-1">
+                            <i class="fas fa-arrow-left"></i>
+                            Return to Home Page
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div id="forgot-password-modal" class="modal">
+        <div class="modal-content">
+            <!-- LOGO & HEADER -->
+            <div class="flex justify-center mb-6">
+                <div class="flex items-center gap-3">
+                    <div class="bg-green-700 p-3 rounded-lg">
+                        <i class="fas fa-plane text-white text-3xl"></i>
+                    </div>
+                    <div>
+                        <div class="font-bold text-2xl">Saudi Airlines</div>
+                        <div class="text-xs text-gray-600">Connecting the Kingdom to the World</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold">Reset Password</h2>
+                <button id="close-forgot-modal" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+            </div>
+            
+            <div id="forgot-form-content">
+                <p class="text-gray-600 mb-6">Enter your email address and we'll send you instructions to reset your password.</p>
+                
+                <form id="forgot-password-form">
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium mb-2">Email Address</label>
+                        <div class="relative">
+                            <i class="fas fa-envelope absolute left-3 top-3 text-gray-400"></i>
+                            <input id="forgot-email" type="email" placeholder="user@example.com" required 
+                                   class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700">
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="w-full bg-green-700 hover:bg-green-800 text-white py-3 rounded-lg font-medium mb-4">
+                        Send Reset Instructions
+                    </button>
+                    
+                    <div class="text-center border-t pt-4 space-y-3">
+                        <button type="button" id="back-to-login-btn" class="text-sm text-green-700 hover:text-green-800 hover:underline font-medium">
+                            <i class="fas fa-arrow-left mr-1"></i>Back to Login
+                        </button>
+                        <div>
+                            <a href="#home"
+                               onclick="document.getElementById('forgot-password-modal').classList.remove('active'); return true;"
+                               class="text-sm text-gray-500 hover:text-gray-700 hover:underline inline-flex items-center gap-1">
+                                <i class="fas fa-arrow-left"></i>
+                                Return to Home Page
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            
+            <div id="forgot-success-content" class="hidden text-center py-8">
+                <div class="flex justify-center mb-6">
+                    <div class="bg-green-100 p-4 rounded-full">
+                        <i class="fas fa-check-circle text-green-700 text-6xl"></i>
+                    </div>
+                </div>
+                <h3 class="text-2xl font-bold mb-3">Check Your Email</h3>
+                <p class="text-gray-600 mb-2">
+                    We've sent password reset instructions to:
+                </p>
+                <p id="reset-email-display" class="font-medium text-lg mb-4"></p>
+                <p class="text-sm text-gray-500 mb-6">If you don't see the email, check your spam folder.</p>
+                <button id="return-to-login-btn" class="w-full bg-green-700 hover:bg-green-800 text-white py-3 rounded-lg font-medium mb-4">
+                    Return to Login
+                </button>
+                <a href="#home"
+                   onclick="document.getElementById('forgot-password-modal').classList.remove('active'); document.getElementById('forgot-form-content').classList.remove('hidden'); document.getElementById('forgot-success-content').classList.add('hidden'); return true;"
+                   class="text-sm text-gray-500 hover:text-gray-700 hover:underline inline-flex items-center gap-1">
+                    <i class="fas fa-arrow-left"></i>
+                    Return to Home Page
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+        });
+
+        // Auth State
+        let isLoggedIn = false;
+        let userName = '';
+
+        // DOM Elements
+        const loginBtn = document.getElementById('login-btn');
+        const logoutBtn = document.getElementById('logout-btn');
+        const mobileLoginBtn = document.getElementById('mobile-login-btn');
+        const userInfo = document.getElementById('user-info');
+        const userNameSpan = document.getElementById('user-name');
+        
+        const loginModal = document.getElementById('login-modal');
+        const forgotPasswordModal = document.getElementById('forgot-password-modal');
+        
+        const closeLoginModal = document.getElementById('close-login-modal');
+        const closeForgotModal = document.getElementById('close-forgot-modal');
+        
+        const loginForm = document.getElementById('login-form');
+        const forgotPasswordForm = document.getElementById('forgot-password-form');
+        
+        const forgotPasswordBtn = document.getElementById('forgot-password-btn');
+        const backToLoginBtn = document.getElementById('back-to-login-btn');
+        const returnToLoginBtn = document.getElementById('return-to-login-btn');
+
+        // Open Login Modal
+        loginBtn.addEventListener('click', () => {
+            loginModal.classList.add('active');
+        });
+        
+        mobileLoginBtn.addEventListener('click', () => {
+            loginModal.classList.add('active');
+            mobileMenu.classList.remove('active');
+        });
+
+        // Close Modals
+        closeLoginModal.addEventListener('click', () => {
+            loginModal.classList.remove('active');
+        });
+        
+        closeForgotModal.addEventListener('click', () => {
+            forgotPasswordModal.classList.remove('active');
+            document.getElementById('forgot-form-content').classList.remove('hidden');
+            document.getElementById('forgot-success-content').classList.add('hidden');
+        });
+
+        // Click outside modal to close
+        window.addEventListener('click', (e) => {
+            if (e.target === loginModal) {
+                loginModal.classList.remove('active');
+            }
+            if (e.target === forgotPasswordModal) {
+                forgotPasswordModal.classList.remove('active');
+            }
+        });
+
+        // Login Form Submit
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            if (email && password) {
+                isLoggedIn = true;
+                userName = email.split('@')[0];
+                
+                // Update UI
+                loginBtn.classList.add('hidden');
+                logoutBtn.classList.remove('hidden');
+                userInfo.classList.remove('hidden');
+                userInfo.classList.add('flex');
+                userNameSpan.textContent = userName;
+                
+                // Close modal
+                loginModal.classList.remove('active');
+                
+                // Show success message (you can add a toast library here)
+                alert('Welcome back! Login successful');
+                
+                // Reset form
+                loginForm.reset();
+            }
+        });
+
+        // Logout
+        logoutBtn.addEventListener('click', () => {
+            isLoggedIn = false;
+            userName = '';
+            
+            // Update UI
+            loginBtn.classList.remove('hidden');
+            logoutBtn.classList.add('hidden');
+            userInfo.classList.add('hidden');
+            userInfo.classList.remove('flex');
+            
+            alert('Logged out successfully');
+        });
+
+        // Forgot Password Button
+        forgotPasswordBtn.addEventListener('click', () => {
+            loginModal.classList.remove('active');
+            forgotPasswordModal.classList.add('active');
+        });
+
+        // Back to Login Button
+        backToLoginBtn.addEventListener('click', () => {
+            forgotPasswordModal.classList.remove('active');
+            loginModal.classList.add('active');
+        });
+        
+        returnToLoginBtn.addEventListener('click', () => {
+            forgotPasswordModal.classList.remove('active');
+            document.getElementById('forgot-form-content').classList.remove('hidden');
+            document.getElementById('forgot-success-content').classList.add('hidden');
+            loginModal.classList.add('active');
+        });
+
+        // Forgot Password Form Submit
+        forgotPasswordForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('forgot-email').value;
+            
+            if (email) {
+                // Show success message
+                document.getElementById('forgot-form-content').classList.add('hidden');
+                document.getElementById('forgot-success-content').classList.remove('hidden');
+                document.getElementById('reset-email-display').textContent = email;
+                
+                // Reset form
+                forgotPasswordForm.reset();
+            }
+        });
+
+        // Smooth Scroll for Navigation Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    // Close mobile menu if open
+                    mobileMenu.classList.remove('active');
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
